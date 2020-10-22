@@ -24,18 +24,26 @@ export class Player {
 
     }
 
-    updateIsGrounded(height) {
+    updateIsGrounded = (height) => {
 
-        this.isGrounded = this.y >= 600 - height;
-        console.log(this.y);
+        if (this.jumped) {
+
+            this.isGrounded = false;
+            this.jumped = false;
+
+        } else {
+
+            this.isGrounded = this.y >= 600 - height;
+
+        }
 
     }
 
-    updateYVelocity() {
+    updateYVelocity = () => {
 
         if (!this.isGrounded) {
 
-            this.yvel += 0.075;
+            this.yvel += 0.1;
 
         } else {
 
@@ -45,15 +53,28 @@ export class Player {
 
     }
 
-    updateY() {
+    updateY = () => {
 
         this.y += this.yvel;
 
     }
 
-    updateImageY() {
+    updateImageY = () => {
 
         this.image.y = this.y
+
+    }
+
+    onSpaceDown = () => {
+
+        console.log(this.isGrounded);
+       
+        if (this.isGrounded) {
+
+            this.jumped = true;
+            this.yvel = -5;
+
+        }
 
     }
 

@@ -4,6 +4,7 @@ import {Ground } from "./ground.js";
 let player;
 let background;
 let ground;
+let spaceBar;
 
 var config = {
     type: Phaser.AUTO,
@@ -37,9 +38,17 @@ function create () {
     ground.image = this.add.image(ground.x, ground.y, "ground");
     ground.image.setOrigin(0,1);
 
+    spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
 }
 
 function update() {
+
+    if (spaceBar.isDown) {
+
+        player.onSpaceDown();
+
+    }
 
     player.update(ground);
 
