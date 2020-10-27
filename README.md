@@ -1,2 +1,2 @@
 # RunBoyRun
- Endlessrunner by styrix.
+ Endlessrunner with Phaser by styrix.
