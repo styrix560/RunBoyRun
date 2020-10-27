@@ -9,18 +9,20 @@ export class Player {
         this.width = width;
         this.height = height;
         this.isGrounded = isGrounded;
+        this.speed = 0.3;
+        this.friction = 0.25;
 
     }
 
-    update = (ground) => {
+    update = (ground, scrollSpeed) => {
 
         this.updateIsGrounded(ground.height);
+        
+        this.updateVelocity();
 
-        this.updateYVelocity();
+        this.updateCoordinates(scrollSpeed);
 
-        this.updateY();
-
-        this.updateImageY();
+        this.updateImage();
 
     }
 
@@ -39,7 +41,29 @@ export class Player {
 
     }
 
-    updateYVelocity = () => {
+    updateVelocity = () => {
+
+        if (Math.abs(this.xvel) >= this.friction) {
+
+            if (this.xvel > 0) {
+
+                this.xvel -= this.friction;
+
+            } else {
+
+                this.xvel += this.friction;
+
+            }
+            
+        } else if (Math.abs(this.xvel) <= 0.1) {
+
+            this.xvel = 0;
+
+        } else {
+
+            this.xvel -= 0.1;
+
+        }
 
         if (!this.isGrounded) {
 
@@ -53,21 +77,33 @@ export class Player {
 
     }
 
-    updateY = () => {
+    updateCoordinates = (scrollSpeed) => {
+
+        if (this.x >= scrollSpeed) {
+
+            this.x -= scrollSpeed;
+
+        }
+
+        if (this.x > -this.xvel 
+            && this.x < 800 - this.xvel - this.width) {
+
+            this.x += this.xvel;
+
+        }
 
         this.y += this.yvel;
 
     }
 
-    updateImageY = () => {
+    updateImage = () => {
 
-        this.image.y = this.y
+        this.image.x = this.x;
+        this.image.y = this.y;
 
     }
 
     onSpaceDown = () => {
-
-        console.log(this.isGrounded);
        
         if (this.isGrounded) {
 
@@ -75,6 +111,18 @@ export class Player {
             this.yvel = -5;
 
         }
+
+    }
+
+    onLeftKeyDown = () => {
+
+        this.xvel -= this.speed;
+
+    }
+
+    onRightKeyDown = () => {
+
+        this.xvel += this.speed;
 
     }
 

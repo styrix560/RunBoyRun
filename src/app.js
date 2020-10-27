@@ -5,6 +5,9 @@ let player;
 let background;
 let ground;
 let spaceBar;
+let leftKey;
+let rightKey;
+let scrollSpeed;
 
 var config = {
     type: Phaser.AUTO,
@@ -27,6 +30,8 @@ function preload () {
 
 function create () {
 
+    scrollSpeed = 2;
+
     background = this.add.image(0, 600, "background");
     background.setOrigin(0,1);
 
@@ -38,7 +43,9 @@ function create () {
     ground.image = this.add.image(ground.x, ground.y, "ground");
     ground.image.setOrigin(0,1);
 
-    spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
 }
 
@@ -50,7 +57,19 @@ function update() {
 
     }
 
-    player.update(ground);
+    if (leftKey.isDown) {
+
+        player.onLeftKeyDown();
+
+    }
+
+    if (rightKey.isDown) {
+
+        player.onRightKeyDown();
+
+    }
+
+    player.update(ground, scrollSpeed);
 
 }
 
